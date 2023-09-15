@@ -5,8 +5,14 @@ import InputField from '../common/input-field';
 import WideButton from '../common/wide-button';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema, registerInputs, defaultValues } from './constants';
+import {
+  schema,
+  registerInputs,
+  defaultValues,
+  formVariants,
+} from './constants';
 import { FormValues } from './types';
+import { motion } from 'framer-motion';
 
 const RegisterForm = () => {
   const form = useForm<FormValues>({
@@ -29,7 +35,12 @@ const RegisterForm = () => {
   };
 
   return (
-    <section className='md-1/2'>
+    <motion.div
+      initial='initial'
+      animate='show'
+      variants={formVariants}
+      className='md-1/2'
+    >
       <WideButton type='link'>
         <>
           Try it free 7 days
@@ -64,7 +75,7 @@ const RegisterForm = () => {
           </p>
         </div>
       </form>
-    </section>
+    </motion.div>
   );
 };
 
