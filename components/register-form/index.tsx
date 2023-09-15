@@ -5,70 +5,27 @@ import InputField from '../common/input-field';
 import WideButton from '../common/wide-button';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { schema, registerInputs, defaultValues } from './constants';
+import { FormValues } from './types';
 
-type Props = {};
-
-type FormValues = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-};
-
-const schema = yup.object({
-  firstName: yup.string().required('First Name cannot be empty'),
-  lastName: yup.string().required('Last Name cannot be empty'),
-  email: yup
-    .string()
-    .email('Looks like this is not an email')
-    .required('Email cannot be empty'),
-  password: yup
-    .string()
-    .min(8, 'Password is too short')
-    .required('Password cannot be empty'),
-});
-
-const registerInputs = [
-  {
-    type: 'text',
-    name: 'firstName',
-    placeholder: 'First Name',
-  },
-  {
-    type: 'text',
-    name: 'lastName',
-    placeholder: 'Last Name',
-  },
-  {
-    type: 'email',
-    name: 'email',
-    placeholder: 'Email Address',
-  },
-  {
-    type: 'password',
-    name: 'password',
-    placeholder: 'Password',
-  },
-];
-
-const RegisterForm = (props: Props) => {
+const RegisterForm = () => {
   const form = useForm<FormValues>({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    },
+    defaultValues,
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
-  const { register, handleSubmit, formState } = form;
+  const { register, handleSubmit, formState, reset } = form;
   const { errors } = formState;
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
+    const { firstName, lastName, email, password } = data;
+
+    alert(
+      `Thank you for signing up ❤️\n\n${firstName}\n${lastName}\n${email}\n${password}\n`
+    );
+
+    reset();
   };
 
   return (
@@ -98,7 +55,7 @@ const RegisterForm = (props: Props) => {
 
         <div className='w-full'>
           <WideButton type='button'>CLAIM YOUR FREE TRIAL</WideButton>
-          <p className='text-purple-200 text-xs leading-[26px] font-medium text-center mt-2'>
+          <p className='text-purple-100 text-xs leading-[26px] font-medium text-center mt-2'>
             By clicking the button, you are agreeing to our
             <Link href='/' className='text-red-100 font-bold'>
               {' '}

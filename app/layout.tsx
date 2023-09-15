@@ -12,6 +12,13 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: 'Sign Up',
   description: 'Learn to code by watching others',
+  icons: {
+    icon: '/favicon.ico',
+  },
+  authors: {
+    name: 'Oğuzhan Uyanık',
+    url: 'github.com/oguzhanuyanik-sr',
+  },
 };
 
 export default function RootLayout({
