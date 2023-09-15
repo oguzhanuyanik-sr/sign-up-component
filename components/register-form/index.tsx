@@ -1,9 +1,33 @@
+'use client';
 import Link from 'next/link';
 import React from 'react';
 import InputField from '../common/input-field';
 import WideButton from '../common/wide-button';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 type Props = {};
+
+type FormValues = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
+
+const schema = yup.object({
+  firstName: yup.string().required('First Name cannot be empty'),
+  lastName: yup.string().required('Last Name cannot be empty'),
+  email: yup
+    .string()
+    .email('Looks like this is not an email')
+    .required('Email cannot be empty'),
+  password: yup
+    .string()
+    .min(8, 'Password is too short')
+    .required('Password cannot be empty'),
+});
 
 const registerInputs = [
   {
@@ -29,8 +53,26 @@ const registerInputs = [
 ];
 
 const RegisterForm = (props: Props) => {
+  const form = useForm<FormValues>({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(schema),
+    mode: 'onChange',
+  });
+
+  const { register, handleSubmit, formState } = form;
+  const { errors } = formState;
+
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+  };
+
   return (
-    <section>
+    <section className='md-1/2'>
       <WideButton type='link'>
         <>
           Try it free 7 days
@@ -38,13 +80,19 @@ const RegisterForm = (props: Props) => {
         </>
       </WideButton>
 
-      <form className='bg-white-100 p-6 rounded-[10px] flex flex-col items-center justify-center gap-4'>
+      <form
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        className='bg-white-100 p-6 rounded-[10px] flex flex-col items-center justify-center gap-4'
+      >
         {registerInputs.map(({ type, name, placeholder }) => (
           <InputField
             key={name}
             type={type}
             name={name}
             placeholder={placeholder}
+            register={register}
+            errors={errors}
           />
         ))}
 
