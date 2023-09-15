@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-red-100 min-h-screen bg-[url('../public/bg-intro-desktop.png')] bg-repeat-y bg-cover overflow-x-hidden;
+  }
+}
+
+@layer components {
+  main {
+    @apply container py-20;
+  }
+
+  .purpleShadow::after {
+    @apply content-[''] block h-6 w-full bg-purple-100 -z-10 mt-[-16px] rounded-[10px] opacity-60;
+  }
+
+  .greenShadow::after {
+    @apply content-[''] block h-6 w-full bg-green-200 mt-[-18px] rounded-[10px] z-10;
+  }
+}
